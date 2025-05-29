@@ -1,0 +1,56 @@
+<!-- Este conteúdo seria retornado por /veiculos-estatisticas -->
+<h2 class="mb-4">Estatísticas Gerais de Veículos</h2>
+{% if stats %}
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    Resumo
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total de Veículos Não Vendidos:
+                        <span class="badge bg-primary rounded-pill">{{ stats.get('total_nao_vendidos', 'N/A') }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Veículos Registrados na Última Semana:
+                        <span class="badge bg-info rounded-pill">{{ stats.get('veiculos_ultimos_7_dias', 'N/A') }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">Distribuição por Década</div>
+                <ul class="list-group list-group-flush">
+                    {% for item_decada in stats.get('distribuicao_por_decada', []) %}
+                        <li class="list-group-item">{{ item_decada.decada }}: {{ item_decada.quantidade }}</li>
+                    {% else %}
+                        <li class="list-group-item">Nenhuma distribuição por década disponível.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">Distribuição por Fabricante</div>
+                <ul class="list-group list-group-flush">
+                    {% for item_fabricante in stats.get('distribuicao_por_fabricante', []) %}
+                        <li class="list-group-item">{{ item_fabricante.fabricante }}: {{ item_fabricante.quantidade }}</li>
+                    {% else %}
+                        <li class="list-group-item">Nenhuma distribuição por fabricante disponível.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        Não foi possível carregar as estatísticas.
+    </div>
+{% endif %}
+<div class="mt-4">
+    <button class="btn btn-secondary" hx-get="/ui/fragment/veiculos-lista" hx-target="#content" hx-swap="innerHTML">Voltar para Lista</button>
+</div>

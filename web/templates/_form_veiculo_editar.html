@@ -1,0 +1,45 @@
+<!-- Este conteúdo seria retornado por /veiculo-form-editar/ID -->
+<!-- O backend faria GET para {{baseUrl}}/veiculos/{{veiculo_id}} para preencher -->
+<h2 class="mb-4">Editar Veículo: {{ veiculo.veiculo if veiculo else 'Desconhecido' }}</h2>
+{% if form_error %}
+    <div id="form-messages" class="alert alert-danger" role="alert">
+        {{ form_error }}
+    </div>
+{% endif %}
+<form hx-put="/ui/action/veiculo-editar/{{ veiculo.id }}" hx-target="#content" hx-swap="innerHTML" hx-indicator="#loading-form">
+    <div class="mb-3">
+        <label for="veiculo" class="form-label">Veículo:</label>
+        <input type="text" id="veiculo" name="veiculo" class="form-control" value="{{ veiculo.veiculo if veiculo else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="marca" class="form-label">Marca:</label>
+        <select id="marca" name="marca" class="form-select" required>
+            <option value="">Selecione uma marca</option>
+            {% for marca_valida in marcas_validas %}
+            <option value="{{ marca_valida }}" {% if veiculo and veiculo.marca == marca_valida %}selected{% endif %}>
+                {{ marca_valida }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="ano" class="form-label">Ano:</label>
+        <input type="number" id="ano" name="ano" class="form-control" value="{{ veiculo.ano if veiculo else '' }}" required min="1900" max="2099">
+    </div>
+    <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição:</label>
+        <textarea id="descricao" name="descricao" class="form-control" rows="3">{{ veiculo.descricao if veiculo else '' }}</textarea>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="vendido" name="vendido" value="true" {% if veiculo and veiculo.vendido %}checked{% endif %}>
+        <label class="form-check-label" for="vendido">Vendido</label>
+    </div>
+    <button type="submit" class="btn btn-primary me-2">Atualizar Veículo</button>
+    <button type="button" class="btn btn-secondary" hx-get="/ui/fragment/veiculo-detalhes/{{ veiculo.id }}" hx-target="#content">Cancelar</button>
+    <div id="loading-form" class="htmx-indicator mt-2">
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Atualizando...</span>
+        </div>
+        Atualizando...
+    </div>
+</form>

@@ -1,0 +1,30 @@
+<!-- Este conteúdo seria retornado por /veiculo-detalhes/ID -->
+<!-- O backend faria GET para {{baseUrl}}/veiculos/{{veiculo_id}} -->
+{% if veiculo %}
+    <h2 class="mb-4">Detalhes do Veículo: {{ veiculo.veiculo }}</h2>
+    <div class="card">
+        <div class="card-header">
+            Informações do Veículo
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>ID:</strong> {{ veiculo.id }}</li>
+            <li class="list-group-item"><strong>Marca:</strong> {{ veiculo.marca }}</li>
+            <li class="list-group-item"><strong>Ano:</strong> {{ veiculo.ano }}</li>
+            <li class="list-group-item"><strong>Descrição:</strong> {{ veiculo.descricao | default('N/A') }}</li>
+            <li class="list-group-item"><strong>Vendido:</strong> {% if veiculo.vendido %}Sim{% else %}Não{% endif %}</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <button class="btn btn-primary me-2" hx-get="/ui/fragment/veiculo-form-editar/{{ veiculo.id }}" hx-target="#content" hx-swap="innerHTML">Editar</button>
+        <button class="btn btn-secondary" hx-get="/ui/fragment/veiculos-lista" hx-target="#content" hx-swap="innerHTML">Voltar para Lista</button>
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        Veículo não encontrado.
+    </div>
+    <div class="mt-3">
+        <button class="btn btn-secondary" hx-get="/ui/fragment/veiculos-lista" hx-target="#content" hx-swap="innerHTML">Voltar para Lista</button>
+    </div>
+{% endif %}
+<!-- O botão "Voltar para Lista" foi movido para dentro dos blocos if/else para melhor controle do layout -->

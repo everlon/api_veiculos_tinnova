@@ -1,0 +1,102 @@
+<div id="tabela-veiculos-container">
+
+    <h2 class="mb-3">Lista de Veículos</h2>
+
+    <div class="row g-3 mb-3 align-items-end">
+        <div class="col-md">
+            <label for="filtro-marca" class="form-label">Marca:</label>
+            <input type="text" id="filtro-marca" name="marca" class="form-control form-control-sm"
+                hx-get="/ui/fragment/veiculos-lista"
+                hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+                hx-target="#tabela-veiculos-container"
+                hx-swap="outerHTML"
+                hx-include="#filtro-ano, #filtro-cor"
+                hx-indicator="#loading-lista"
+                placeholder="Ex: Volkswagen">
+        </div>
+        <div class="col-md">
+            <label for="filtro-ano" class="form-label">Ano:</label>
+            <input type="number" id="filtro-ano" name="ano" class="form-control form-control-sm"
+                hx-get="/ui/fragment/veiculos-lista"
+                hx-trigger="input changed delay:500ms, search"
+                hx-target="#tabela-veiculos-container"
+                hx-swap="outerHTML"
+                hx-include="#filtro-marca, #filtro-cor"
+                hx-indicator="#loading-lista"
+                placeholder="Ex: 2020">
+        </div>
+        <div class="col-md">
+            <label for="filtro-cor" class="form-label">Descrição:</label>
+            <input type="text" id="filtro-cor" name="cor" class="form-control form-control-sm"
+                hx-get="/ui/fragment/veiculos-lista"
+                hx-trigger="input changed delay:500ms, search"
+                hx-target="#tabela-veiculos-container"
+                hx-swap="outerHTML"
+                hx-include="#filtro-marca, #filtro-ano"
+                hx-indicator="#loading-lista"
+                placeholder="Ex: Azul ou Sedan">
+        </div>
+        <div class="col-md-auto">
+            <a href="#" class="btn btn-outline-secondary btn-sm w-100"
+               hx-get="/ui/fragment/veiculos-lista"
+               hx-target="#tabela-veiculos-container"
+               hx-swap="outerHTML"
+               hx-indicator="#loading-lista">
+                Limpar Filtros
+            </a>
+        </div>
+    </div>
+
+    {% if form_error %}
+    <div id="form-messages-lista" class="alert alert-warning" role="alert">
+        {{ form_error }}
+    </div>
+    {% endif %}
+    <div id="loading-lista" class="htmx-indicator mb-2">
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Carregando lista...</span>
+        </div>
+        Carregando lista...
+    </div>
+
+    <table id="veiculos-table" class="table table-striped table-hover table-bordered" hx-indicator="#loading-lista">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Veículo</th>
+                <th>Marca</th>
+                <th>Ano</th>
+                <th>Descrição</th>
+                <th>Vendido</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for veiculo in veiculos %}
+            <tr>
+                <td>{{ veiculo.id }}</td>
+                <td>{{ veiculo.veiculo }}</td>
+                <td>{{ veiculo.marca }}</td>
+                <td>{{ veiculo.ano }}</td>
+                <td>{{ veiculo.descricao }}</td>
+                <td>{% if veiculo.vendido %}Sim{% else %}Não{% endif %}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" hx-get="/ui/fragment/veiculo-detalhes/{{ veiculo.id }}" hx-target="#content" hx-swap="innerHTML">Detalhes</button>
+                    <button class="btn btn-sm btn-danger"
+                            hx-delete="/ui/action/veiculo-remover/{{ veiculo.id }}"
+                            hx-target="closest tr"
+                            hx-swap="outerHTML"
+                            hx-confirm="Tem certeza que deseja remover este veículo?">
+                        Remover
+                    </button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-center">Nenhum veículo encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>

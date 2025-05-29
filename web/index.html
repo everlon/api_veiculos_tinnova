@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Veículos Tinnova</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Incluindo HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <!-- Seus estilos customizados (se ainda necessários após o Bootstrap) podem ir em um arquivo CSS separado ou aqui. -->
+    <!-- Por ora, a tag <style> foi removida pois o Bootstrap cuidará da maior parte. -->
+</head>
+<body class="bg-light">
+    <header class="bg-dark text-white p-3 text-center mb-4">
+        <h1>Gerenciador de Veículos Tinnova</h1>
+    </header>
+
+    <nav class="container bg-white p-3 rounded-2 shadow-sm mb-4">
+        <div class="nav nav-pills">
+            <a class="nav-link" href="#" hx-get="/ui/fragment/veiculos-lista" hx-target="#content" hx-swap="innerHTML" hx-trigger="load, click">Listar Veículos</a>
+            <a class="nav-link" href="#" hx-get="/ui/fragment/veiculo-form-criar" hx-target="#content" hx-swap="innerHTML">Adicionar Veículo</a>
+            <a class="nav-link" href="#" hx-get="/ui/fragment/veiculos-estatisticas" hx-target="#content" hx-swap="innerHTML">Estatísticas</a>
+            <!-- Adicione mais links de navegação conforme necessário -->
+        </div>
+    </nav>
+
+    <div id="content" class="container bg-white p-3 rounded-2 shadow-sm">
+        <!-- O conteúdo dinâmico será carregado aqui -->
+        <p>Bem-vindo! Selecione uma opção no menu acima.</p>
+    </div>
+
+    <script>
+        // Recarrega a lista de veículos quando o evento 'reloadVeiculosListEvent' é disparado
+        document.body.addEventListener('reloadVeiculosListEvent', function () {
+            htmx.ajax('GET', '/ui/fragment/veiculos-lista', '#content');
+        });
+    </script>
+    <!-- Bootstrap JS Bundle (Popper.js included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

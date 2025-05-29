@@ -1,0 +1,656 @@
+{
+    "info": {
+        "_postman_id": "YOUR_COLLECTION_ID_REPLACE_ME",
+        "name": "API de Veículos Tinnova",
+        "description": "API REST para gerenciamento de veículos. \n\nBase URL: {{baseUrl}}\n\nEste projeto gerencia um cadastro de veículos, permitindo operações CRUD, consultas filtradas e obtenção de estatísticas.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Status da API",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Verifica o status da API, versão e links para documentação."
+            },
+            "response": [
+                {
+                    "name": "Resposta de Sucesso - Status OK",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                ""
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"status\": \"ok\",\n    \"version\": \"1.0.0\",\n    \"message\": \"Bem-vindo à API de Veículos\",\n    \"docs\": \"/docs\",\n    \"redoc\": \"/redoc\"\n}"
+                }
+            ]
+        },
+        {
+            "name": "Veículos",
+            "description": "Operações relacionadas ao gerenciamento de veículos.",
+            "item": [
+                {
+                    "name": "Cria um novo veículo",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"veiculo\": \"Onix Plus\",\n    \"marca\": \"Chevrolet\",\n    \"ano\": 2023,\n    \"descricao\": \"Sedan compacto com multimidia\",\n    \"vendido\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                ""
+                            ]
+                        },
+                        "description": "**Criação de Novo Veículo**\n\nEste endpoint permite cadastrar um novo veículo no sistema. É necessário fornecer todos os dados do veículo no corpo da requisição.\n\n**Regras de Negócio:**\n- O ano do veículo deve ser válido (entre 1900 e o ano atual + 1).\n- A marca do veículo deve estar na lista de marcas permitidas.\n\n**Casos de Uso:**\n- Registrar um veículo recém-adquirido ou fabricado.\n\n**Respostas:**\n- `201 Created`: Retorna o objeto do veículo criado com seus dados completos.\n- `400 Bad Request`: Se o ano ou a marca forem inválidos.\n- `422 Unprocessable Entity`: Se o corpo da requisição não seguir o schema esperado."
+                    },
+                    "response": [
+                        {
+                            "name": "O veículo recém-criado",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"veiculo\": \"Onix Plus\",\n    \"marca\": \"Chevrolet\",\n    \"ano\": 2023,\n    \"descricao\": \"Sedan compacto com multimidia\",\n    \"vendido\": true\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"id\": 1,\n    \"veiculo\": \"Onix Plus\",\n    \"marca\": \"Chevrolet\",\n    \"ano\": 2023,\n    \"descricao\": \"Sedan compacto com multimidia\",\n    \"vendido\": true,\n    \"created\": \"2023-10-27T10:00:00.123456\",\n    \"updated\": \"2023-10-27T10:00:00.123456\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obtém os detalhes de um veículo",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/{{veiculo_id}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "{{veiculo_id}}"
+                            ]
+                        },
+                        "description": "**Obtenção de Detalhes do Veículo**\n\nEste endpoint retorna as informações detalhadas de um veículo específico com base no seu ID.\n\n**Casos de Uso:**\n- Visualizar todos os dados de um veículo individualmente.\n\n**Respostas:**\n- `200 OK`: Retorna o objeto do veículo com seus dados completos.\n- `404 Not Found`: Se nenhum veículo com o ID fornecido for encontrado."
+                    },
+                    "response": [
+                        {
+                            "name": "Detalhes do veículo solicitado",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/1",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"id\": 1,\n    \"veiculo\": \"Gol\",\n    \"marca\": \"Volkswagen\",\n    \"ano\": 2020,\n    \"descricao\": \"Carro popular 1.0\",\n    \"vendido\": false,\n    \"created\": \"2023-10-27T10:00:00.123456\",\n    \"updated\": \"2023-10-27T10:00:00.123456\"\n}"
+                        },
+                        {
+                            "name": "Veículo não encontrado",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/999",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "999"
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"detail\": \"Veículo não encontrado\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Lista todos os veículos com filtros opcionais",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/?skip=0&limit=10&marca=Volkswagen&ano=2020&cor=azul",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                ""
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0",
+                                    "description": "Número de registros para pular"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Limite de registros por página"
+                                },
+                                {
+                                    "key": "marca",
+                                    "value": "Volkswagen",
+                                    "description": "Filtrar por marca (busca parcial e case-insensitive)",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "ano",
+                                    "value": "2020",
+                                    "description": "Filtrar por ano exato",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "cor",
+                                    "value": "azul",
+                                    "description": "Filtrar por descrição/cor (busca parcial e case-insensitive)",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "**Listagem de Veículos**\n\nEste endpoint retorna uma lista de veículos, permitindo aplicar filtros e controlar a paginação.\n\n**Filtros:**\n- `marca`: Filtra veículos cuja marca contenha o texto especificado (case-insensitive).\n- `ano`: Filtra veículos por ano exato.\n- `cor`: Filtra veículos cuja descrição/cor contenha o texto especificado (case-insensitive).\n\n**Paginação:**\n- `skip`: Número de veículos para pular (para offset).\n- `limit`: Número máximo de veículos a retornar.\n\n**Casos de Uso:**\n- Exibir a lista completa de veículos.\n- Buscar veículos por critérios específicos (marca, ano, cor).\n- Implementar paginação em interfaces de usuário.\n\n**Respostas:**\n- `200 OK`: Retorna uma lista de objetos de veículo."
+                    },
+                    "response": [
+                        {
+                            "name": "Lista de veículos",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/?skip=0&limit=10",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        ""
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "skip",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "[\n    {\n        \"id\": 1,\n        \"veiculo\": \"Gol\",\n        \"marca\": \"Volkswagen\",\n        \"ano\": 2020,\n        \"descricao\": \"Carro popular 1.0\",\n        \"vendido\": false,\n        \"created\": \"2023-10-27T10:00:00.123456\",\n        \"updated\": \"2023-10-27T10:00:00.123456\"\n    },\n    {\n        \"id\": 2,\n        \"veiculo\": \"HB20\",\n        \"marca\": \"Hyundai\",\n        \"ano\": 2022,\n        \"descricao\": \"Hatch compacto\",\n        \"vendido\": true,\n        \"created\": \"2023-11-15T14:30:00.000000\",\n        \"updated\": \"2023-11-16T09:00:00.000000\"\n    }\n]"
+                        }
+                    ]
+                },
+                {
+                    "name": "Atualiza completamente um veículo existente",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"veiculo\": \"HB20S\",\n    \"marca\": \"Hyundai\",\n    \"ano\": 2021,\n    \"descricao\": \"Sedan atualizado\",\n    \"vendido\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/{{veiculo_id}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "{{veiculo_id}}"
+                            ]
+                        },
+                        "description": "**Atualização Completa de Veículo (PUT)**\n\nEste endpoint permite substituir completamente os dados de um veículo existente identificado pelo seu ID.\n\n**Regras de Negócio:**\n- Todas as validações de criação se aplicam aos dados fornecidos (ano e marca).\n\n**Casos de Uso:**\n- Corrigir ou atualizar todas as informações de um veículo.\n\n**Respostas:**\n- `200 OK`: Retorna o objeto do veículo atualizado.\n- `400 Bad Request`: Se o ano ou a marca fornecidos forem inválidos.\n- `404 Not Found`: Se nenhum veículo com o ID especificado for encontrado.\n- `422 Unprocessable Entity`: Se o corpo da requisição não seguir o schema esperado.\n\n*Nota: O exemplo no schema `VeiculoUpdate` mostra uma atualização parcial, mas o PUT geralmente implica substituição total. O corpo do exemplo aqui reflete uma atualização mais completa, mas você pode usar o exemplo do schema (`{\"veiculo\": \"HB20S\", \"vendido\": true}`) se preferir testar a atualização de campos específicos, lembrando que os campos não enviados no PUT podem ser zerados/definidos como null dependendo da implementação do serviço.*"
+                    },
+                    "response": [
+                        {
+                            "name": "O veículo atualizado",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"veiculo\": \"HB20S\",\n    \"vendido\": true\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/1",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"id\": 1,\n    \"veiculo\": \"HB20S\",\n    \"marca\": \"Hyundai\",\n    \"ano\": 2021,\n    \"descricao\": \"Sedan atualizado\",\n    \"vendido\": true,\n    \"created\": \"2023-10-27T10:00:00.123456\",\n    \"updated\": \"2023-11-20T11:00:00.789012\"\n}"
+                        },
+                        {
+                            "name": "Veículo não encontrado",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/999",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "999"
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"detail\": \"Veículo não encontrado\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Remove um veículo",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/{{veiculo_id}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "{{veiculo_id}}"
+                            ]
+                        },
+                        "description": "**Remoção de Veículo**\n\nEste endpoint permite excluir um veículo da base de dados utilizando seu ID.\n\n**Casos de Uso:**\n- Remover um veículo que não faz mais parte do inventário.\n\n**Respostas:**\n- `200 OK`: Retorna uma mensagem de sucesso indicando que o veículo foi removido.\n- `404 Not Found`: Se nenhum veículo com o ID fornecido for encontrado."
+                    },
+                    "response": [
+                        {
+                            "name": "Mensagem de sucesso após remoção",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/1",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"Veículo removido com sucesso\"\n}"
+                        },
+                        {
+                            "name": "Veículo não encontrado",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/999",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "999"
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"detail\": \"Veículo não encontrado\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Retorna estatísticas gerais sobre os veículos",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/estatisticas/geral",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "estatisticas",
+                                "geral"
+                            ]
+                        },
+                        "description": "**Estatísticas Gerais de Veículos**\n\nEste endpoint fornece diversas estatísticas consolidadas sobre o inventário de veículos.\n\n**Regras de Negócio/Informações Calculadas:**\n- **Total de veículos não vendidos:** Conta todos os veículos onde `vendido` é `False`.\n- **Distribuição por década:** Agrupa e conta veículos pela década de fabricação (ex: 1990s, 2000s).\n- **Distribuição por fabricante:** Agrupa e conta veículos por marca/fabricante.\n- **Veículos recentes:** Conta veículos criados nos últimos 7 dias.\n\n**Casos de Uso:**\n- Obter um panorama geral do inventário de veículos.\n- Análise rápida sobre o estado das vendas e o perfil da base de veículos.\n\n**Respostas:**\n- `200 OK`: Retorna um objeto JSON contendo as estatísticas."
+                    },
+                    "response": [
+                        {
+                            "name": "Objeto com estatísticas",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/estatisticas/geral",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "estatisticas",
+                                        "geral"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"total_veiculos_nao_vendidos\": 15,\n    \"distribuicao_por_decada\": {\n        \"1990s\": 5,\n        \"2000s\": 20,\n        \"2010s\": 30,\n        \"2020s\": 10\n    },\n    \"distribuicao_por_fabricante\": {\n        \"Volkswagen\": 25,\n        \"Chevrolet\": 15,\n        \"Fiat\": 10,\n        \"Ford\": 15\n    },\n    \"veiculos_registrados_ultima_semana\": 3\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Lista todos os veículos não vendidos",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/nao-vendidos/",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "nao-vendidos",
+                                ""
+                            ]
+                        },
+                        "description": "**Listagem de Veículos Não Vendidos**\n\nEste endpoint retorna uma lista apenas dos veículos cujo status `vendido` é `False`.\n\n**Casos de Uso:**\n- Identificar rapidamente o estoque de veículos ainda disponíveis para venda.\n\n**Respostas:**\n- `200 OK`: Retorna uma lista de objetos de veículo não vendidos."
+                    },
+                    "response": [
+                        {
+                            "name": "Lista de veículos não vendidos",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/nao-vendidos/",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "nao-vendidos",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "[\n    {\n        \"id\": 1,\n        \"veiculo\": \"Gol\",\n        \"marca\": \"Volkswagen\",\n        \"ano\": 2020,\n        \"descricao\": \"Carro popular 1.0\",\n        \"vendido\": false,\n        \"created\": \"2023-10-27T10:00:00.123456\",\n        \"updated\": \"2023-10-27T10:00:00.123456\"\n    },\n    {\n        \"id\": 3,\n        \"veiculo\": \"Argo\",\n        \"marca\": \"Fiat\",\n        \"ano\": 2021,\n        \"descricao\": \"Hatch premium\",\n        \"vendido\": false,\n        \"created\": \"2023-11-01T08:00:00.000000\",\n        \"updated\": \"2023-11-05T12:00:00.000000\"\n    }\n]"
+                        }
+                    ]
+                },
+                {
+                    "name": "Lista veículos cadastrados nos últimos 7 dias",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/veiculos/recentes/",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "veiculos",
+                                "recentes",
+                                ""
+                            ]
+                        },
+                        "description": "**Listagem de Veículos Recentes**\n\nEste endpoint retorna uma lista dos veículos que foram cadastrados no sistema nos últimos 7 dias.\n\n**Casos de Uso:**\n- Visualizar os veículos adicionados recentemente ao inventário.\n\n**Respostas:**\n- `200 OK`: Retorna uma lista de objetos de veículo recentes."
+                    },
+                    "response": [
+                        {
+                            "name": "Lista de veículos recentes",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/veiculos/recentes/",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "veiculos",
+                                        "recentes",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "[\n    {\n        \"id\": 10,\n        \"veiculo\": \"Kwid\",\n        \"marca\": \"Renault\",\n        \"ano\": 2023,\n        \"descricao\": \"Subcompacto urbano\",\n        \"vendido\": false,\n        \"created\": \"2023-11-18T15:00:00.000000\",\n        \"updated\": \"2023-11-18T15:00:00.000000\"\n    }\n]"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8000",
+            "type": "string",
+            "description": "URL base da API. Altere se sua API estiver rodando em uma porta ou host diferente."
+        },
+        {
+            "key": "veiculo_id",
+            "value": "1",
+            "type": "string",
+            "description": "ID de um veículo para testes (ex: para GET por ID, PUT, DELETE)"
+        }
+    ]
+}
