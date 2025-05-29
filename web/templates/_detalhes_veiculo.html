@@ -1,5 +1,3 @@
-<!-- Este conteúdo seria retornado por /veiculo-detalhes/ID -->
-<!-- O backend faria GET para {{baseUrl}}/veiculos/{{veiculo_id}} -->
 {% if veiculo %}
     <h2 class="mb-4">Detalhes do Veículo: {{ veiculo.veiculo }}</h2>
     <div class="card">
@@ -27,4 +25,3 @@
         <button class="btn btn-secondary" hx-get="/ui/fragment/veiculos-lista" hx-target="#content" hx-swap="innerHTML">Voltar para Lista</button>
     </div>
 {% endif %}
-<!-- O botão "Voltar para Lista" foi movido para dentro dos blocos if/else para melhor controle do layout -->

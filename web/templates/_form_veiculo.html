@@ -1,4 +1,3 @@
-<!-- Este conteúdo seria retornado por /veiculo-form-criar -->
 <h2 class="mb-4">Adicionar Novo Veículo</h2>
 {% if form_error %}
     <div id="form-messages" class="alert alert-danger" role="alert">
@@ -30,13 +29,6 @@
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="vendido" name="vendido" value="true">
         <label class="form-check-label" for="vendido">Vendido</label>
-        <!-- HTMX não envia checkboxes desmarcados por padrão.
-             Se o backend espera 'false', você pode precisar de um campo oculto
-             ou lógica no backend para tratar a ausência como 'false'.
-             Alternativamente, use um <input type="hidden" name="vendido" value="false">
-             e o checkbox marcado sobrescreveria isso se o backend pegar o último valor.
-             Ou, mais simples, o backend interpreta a ausência de 'vendido' como false.
-        -->
     </div>
     <button type="submit" class="btn btn-primary">Salvar Veículo</button>
     <div id="loading-form" class="htmx-indicator mt-2">
@@ -45,5 +37,4 @@
         </div>
         Salvando...
     </div>
-    <!-- Mensagens de sucesso/erro agora são tratadas pelo swap do #content ou pelo form_error acima -->
 </form>
